@@ -24,4 +24,14 @@ target
 # Added by cargo
 
 /target
+
+# Configuration file
+Rocket.toml*
+
+# Development files
+bin
 data
+www/sync.sh
+.env
+\.*sw?
+
