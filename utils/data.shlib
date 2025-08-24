@@ -6,3 +6,12 @@ if [[ ! -v DSN ]]; then
     echo "Please set the DSN variable"
     exit 1
 fi
+
+function initialize_db {
+    echo "Creating databse schema"
+    cd ..
+    echo "Running diesel migrations"
+    diesel migration run
+}
+
+
