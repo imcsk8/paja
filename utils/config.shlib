@@ -1,0 +1,5 @@
+PG_HOST="127.0.0.1"
+PG_DATABASE="paja"
+PG_USER="paja"
+PORT="9432"
+MYDSN=${DSN/9432\/postgres/9432\/paja}
