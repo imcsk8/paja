@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Functions for loading data
+
+if [[ ! -v DSN ]]; then
+    echo "Please set the DSN variable"
+    exit 1
+fi
