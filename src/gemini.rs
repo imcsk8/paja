@@ -1,16 +1,34 @@
 use gemini_rust::Gemini;
+use rocket::serde::{ Deserialize, Serialize };
+use rocket;
 
-/// Generate output
+
+///  Gemini configiration
+#[derive(Serialize, Deserialize)]
+pub struct GeminiConfig {
+    pub api_key: String,
+}
+
+
+/// Prompt sent by the user
+#[derive(Serialize, Deserialize)]
+pub struct PromptPayload {
+    pub content: String,
+}
+
+
+/// Generate gemini output
 pub async fn generate(
     //TODO: input: Form<UserInput<'_>>,
+    persona: &str,
     input: String,
+    gemini_api_key: String,
     //TODO: this is for google docs token: GoogleToken,
 //TODO) -> Result<Box<dyn rocket::response::Responder + 'static>, String> {
 ) -> Result<String, String> {
-    let gemini_api_key = std::env::var("GEMINI_API_KEY").expect("GEMINI_API_KEY must be set.");
 
     // 1. Craft the prompt for Gemini (no changes)
-    let prompt = format!(
+    /* TODO: check if needed let prompt = format!(
         "Based on the following user-provided information, generate a professional Curriculum Vitae (CV).
         The output should be in clean Markdown format, with sections for Summary, Work Experience, Education, and Skills.
         Do not include any text other than the Markdown CV itself. The content should be in the language of the user-provided
@@ -22,15 +40,15 @@ pub async fn generate(
         ---",
         //TODO: input.raw_text
         input
-    );
+    );*/
 
     // 2. Call Gemini API using the new, refactored function
-    let cv_content = match call_gemini(&prompt, &gemini_api_key).await {
-        Ok(text) => text,
+    let content = match call_gemini(&persona, &input, &gemini_api_key).await {
+        Ok(t) => t,
         Err(e) => return Err(format!("Error interacting with the AI model: {}", e)),
     };
 
-    Ok(cv_content)
+    Ok(content)
 
     // 3. Generate the requested output format (no changes)
    /*TODO match input.output_format {
@@ -48,15 +66,17 @@ pub async fn generate(
 
 
 /// Handle the gemini API calls
-async fn call_gemini(prompt: &str, api_key: &str) -> Result<String, Box<dyn std::error::Error>> {
+async fn call_gemini(persona: &str, prompt: &str, api_key: &str)
+-> Result<String, Box<dyn std::error::Error>> {
     // 1. Initialize the client with the API key.
     let client = Gemini::new(api_key.to_string());
 
     // 2. Send the content generation request.
     // The crate handles building the request body.
     let response = client.generate_content()
-        .with_system_prompt(prompt)
-        .with_user_message("Generando CV")
+        .with_system_instruction(persona)
+        //.with_system_prompt(prompt)
+        .with_user_message(prompt)
         .execute()
         .await?;
 
@@ -71,4 +91,16 @@ async fn call_gemini(prompt: &str, api_key: &str) -> Result<String, Box<dyn std:
     */
 
     Ok(response.text())
+}
+
+
+/// Get the gemini API key from the configuration file
+pub fn get_gemini_api_key() -> String {
+    let figment = rocket::Config::figment();
+
+    // Extract JWT configuration from the "jwt" table in Rocket.toml
+    let gemini: GeminiConfig = figment
+        .extract_inner("gemini")
+        .expect("Gemini API key missing from Rocket.toml");
+    gemini.api_key
 }
