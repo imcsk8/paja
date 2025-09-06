@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paja Generator - Generador de Cotizaciones</title>
+
+    <!-- Enlace al archivo CSS externo (como se solicitó) -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Estilos CSS integrados para la previsualización -->
+    <style>
+        /* En un proyecto real, estos estilos estarían en css/style.css */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
+
+        :root {
+            --background-color: #121212;
+            --surface-color: #1e1e1e;
+            --primary-color: #00aaff;
+            --secondary-color: #0077cc;
+            --text-color: #e0e0e0;
+            --text-secondary-color: #a0a0a0;
+            --border-color: #333;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 960px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 20px;
+        }
+
+        header {
+            padding: 40px 0;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        header h1 span {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        main {
+            width: 100%;
+            text-align: left;
+        }
+
+        #quote-generator {
+            background-color: var(--surface-color);
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        #quote-generator h2 {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .form-group textarea {
+            width: 100%;
+            min-height: 150px;
+            background-color: var(--background-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+            color: #fff;
+        }
+        .btn-success:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: #fff;
+        }
+        .btn-danger:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+        }
+
+        #quote-output {
+            margin-top: 30px;
+            padding: 30px;
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            display: none; /* Oculto por defecto */
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 30px 0;
+            color: var(--text-secondary-color);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Paja <span>Generator</span></h1>
+        </header>
+
+        <main>
+            <section id="quote-generator">
+                <h2>Generador de Cotizaciones</h2>
+                <form id="quote-form">
+                    <div class="form-group">
+                        <label for="quote-content">Información de la Cotización</label>
+                        <textarea id="quote-content" placeholder="Escribe aquí los detalles del producto o servicio, precios, términos, etc. Puedes usar HTML básico como <b> o <ul>."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Generar Cotización</button>
+                        <button type="button" id="update-btn" class="btn btn-success">Actualizar Cotización</button>
+                        <button type="button" id="delete-btn" class="btn btn-danger">Eliminar Cotización</button>
+                    </div>
+                </form>
+            </section>
+
+            <section id="quote-output">
+                <!-- El contenido de la plantilla de Handlebars se insertará aquí -->
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Paja Generator. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+    <!-- Plantilla de Handlebars -->
+    <script id="quote-template" type="text/x-handlebars-template">
+        <article class="quote">
+            <h3>Cotización</h3>
+            <hr>
+            <div id="content">
+            </div>
+        </article>
+    </script>
+
+    <!-- Librerías jQuery y Handlebars desde CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
+
+    <!-- Script principal -->
+    <script>
+        /**
+         * Envía el contenido de la cotización a un endpoint API y renderiza la respuesta.
+         * @param {string} content - El texto de la cotización.
+         */
+        function generateQuoteViaAPI(content) {
+            console.log('Enviando datos a /generate...');
+
+            // Usamos la API Fetch para enviar los datos al endpoint.
+            fetch('/cotizaciones/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ content: content }),
+            })
+            .then(response => {
+                if (!response.ok && response.status !== 0) {
+                     throw new Error('Error obteniendo cotización');
+                }
+                // En un caso real, aquí se procesaría la respuesta del servidor:
+                return response.json();
+
+            })
+            .then(data => {
+                // Usamos los datos de la respuesta (simulada) para renderizar la plantilla.
+                const context = {
+                    content: data
+                };
+                //pre = `<pre>${data}</pre>`;
+
+                const source = $('#quote-template').html();
+                const template = Handlebars.compile(source);
+                const html = template(context);
+                //console.log("PRE: " + pre);
+
+                $('#quote-output').html(html).slideDown();
+                $('#content').html(data);
+            })
+            .catch(error => {
+                console.error('Error al generar la cotización:', error);
+                alert('Hubo un error al conectar con el servidor. Por favor, intenta de nuevo.');
+            });
+        }
+
+        $(document).ready(function() {
+            // 1. CREAR: Manejar el envío del formulario
+            $('#quote-form').on('submit', function(e) {
+                e.preventDefault(); // Evitar que la página se recargue
+
+                const content = $('#quote-content').val();
+                if (!content) {
+                    alert('Por favor, introduce la información de la cotización.');
+                    return;
+                }
+
+                // Llamar a la nueva función que envía los datos a la API
+                generateQuoteViaAPI(content);
+            });
+
+            // 2. ACTUALIZAR: Botón de ejemplo
+            $('#update-btn').on('click', function() {
+                alert('Funcionalidad de "Actualizar" no implementada en este demo.');
+            });
+
+            // 3. ELIMINAR: Botón de ejemplo
+            $('#delete-btn').on('click', function() {
+                if (confirm('¿Estás seguro de que quieres eliminar esta cotización?')) {
+                    $('#quote-output').slideUp(function() {
+                        $(this).empty();
+                    });
+                     $('#quote-content').val('');
+                    alert('Cotización eliminada.');
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
+
