@@ -5,4 +5,52 @@ edition = "2024"
 
 [dependencies]
 gemini-rust = "1.1.0"
-tokio = "1.47.1"
+tokio = ">=1.47.1"
+diesel = { version = "~2.2.10", features = ["postgres", "r2d2", "uuid", "chrono", "serde_json"] }
+rocket = { version = "~0.5.1", features = ["json", "uuid"] }
+dotenvy = "~0.15.7"
+serde = { version = "~1.0.215", features = ["derive"] }
+uuid = { version = "~1.11.0", features = ["v4", "serde"] }
+chrono = { version = "~0.4.38", features = ["serde"] }
+jsonwebtoken = { version = "9.3.0", default-features = false }
+lazy_static = "1.5.0"
+diesel-derive-enum = { version = "2.1.0", features = ["postgres"] }
+serde_json = "1.0.140"
+# TODO: for comment guard validator = { version = "0.16", features = ["derive"] }
+
+## custom macros
+#TODO: paja_macros = { path = "paja_macros/" }
+rocket_oauth2 = "0.5.0"
+reqwest = { version = "0.12.15", features = ["json", "multipart"] }
+log = "0.4.27"
+
+################################################################################
+#                                                                              #
+#                                                                              #
+#                      S E C U R I T Y  U P G R A D E S                        #
+#                                                                              #
+#                                                                              #
+################################################################################
+
+# https://github.com/imcsk8/paja/security/dependabot/1
+ring = "~0.17.12"
+
+# https://github.com/imcsk8/paja/security/dependabot/3
+# https://github.com/crossbeam-rs/crossbeam/pull/1187#issue-2980761131
+crossbeam-channel = "~0.5.15"
+
+
+[dependencies.rocket_dyn_templates]
+version = "0.2.0"
+features = ["handlebars"]
+
+[dependencies.rocket_sync_db_pools]
+version = "0.1.0"
+features = ["diesel_postgres_pool", "postgres_pool"]
+
+
+# https://github.com/johnthagen/min-sized-rust
+[profile.release]
+strip = true
+opt-level = "z"
+codegen-units = 1
