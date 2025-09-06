@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paja Generator - Crea Documentos al Instante</title>
+    <link rel="stylesheet" href="/public/css/style.css">  
+
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Paja <span>Generator</span></h1>
+        </header>
+
+        <main>
+            <section class="intro">
+                <h1>Crea documentos complejos en segundos.</h1>
+                <p>Dedica tu tiempo a lo que de verdad importa. Nosotros nos encargamos de generar esos documentos repetitivos que, aunque necesarios, consumen horas de tu día.</p>
+            </section>
+
+            <section class="document-options">
+                <!-- Opción Activada -->
+                <a href="/cotizaciones" id="link-cotizaciones" class="doc-card">
+                    <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                        </svg>
+                    </div>
+                    <h3>Cotizaciones</h3>
+                    <p>Genera cotizaciones profesionales y personalizadas para tus clientes en un instante.</p>
+                </a>
+
+                <!-- Opciones Desactivadas -->
+                <a href="#" class="doc-card disabled">
+                    <span class="soon-badge">Próximamente</span>
+                    <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                        </svg>
+                    </div>
+                    <h3>Curriculums Vitae</h3>
+                    <p>Crea un CV de alto impacto adaptado a diferentes ofertas de trabajo sin esfuerzo.</p>
+                </a>
+
+                <a href="#" class="doc-card disabled">
+                     <span class="soon-badge">Próximamente</span>
+                     <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                           <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
+                        </svg>
+                     </div>
+                    <h3>Proyectos de Apoyo</h3>
+                    <p>Estructura y redacta proyectos para convocatorias gubernamentales siguiendo los formatos requeridos.</p>
+                </a>
+
+                <a href="#" class="doc-card disabled">
+                    <span class="soon-badge">Próximamente</span>
+                    <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M14.25 6.087c0-.355.186-.676.401-.959.215-.283.49-.54.812-.74.262-.164.544-.296.843-.393.299-.097.615-.146.942-.146s.643.049.942.146c.299.097.581.23.843.393.322.2.597.457.812.74.215.283.401.604.401.959v0a.64.64 0 01-.64.64h-4.364a.64.64 0 01-.64-.64v0zM14.25 8.835l.01.019.01.018a.25.25 0 00.264.028l3.11-.933a.25.25 0 00.145-.36l-.21-.42a.25.25 0 00-.336-.105l-3.11.933a.25.25 0 00-.145.36l.21.42a.25.25 0 00.122.127z" />
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3.75h.008v.008H12v-.008z" />
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M3 8.25l9 9 9-9" />
+                        </svg>
+                    </div>
+                    <h3>Licitaciones</h3>
+                    <p>Prepara la documentación base para participar en licitaciones públicas o privadas.</p>
+                </a>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Paja Generator. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+    <!-- Librería jQuery desde un CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <!-- Script para gestionar los clics en los enlaces deshabilitados -->
+    <script>
+        $(document).ready(function() {
+            // Selecciona todas las tarjetas con la clase 'disabled'
+            $('.doc-card.disabled').on('click', function(e) {
+                // Previene la acción por defecto del enlace (que es navegar a '#')
+                e.preventDefault();
+                
+                // Muestra una alerta simple al usuario
+                alert('Esta función estará disponible próximamente. ¡Estamos trabajando en ello!');
+            });
+        });
+    </script>
+
+</body>
+</html>
+

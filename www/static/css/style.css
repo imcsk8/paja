@@ -1,0 +1,156 @@
+/* Importar una fuente moderna desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
+
+/* Variables de color para un tema oscuro y consistente */
+:root {
+    --background-color: #121212;
+    --surface-color: #1e1e1e;
+    --primary-color: #00aaff;
+    --secondary-color: #0077cc;
+    --text-color: #e0e0e0;
+    --text-secondary-color: #a0a0a0;
+    --border-color: #333;
+}
+
+/* Estilos base del cuerpo */
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Contenedor principal para centrar el contenido */
+.container {
+    width: 90%;
+    max-width: 960px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Estilos de la cabecera */
+header {
+    padding: 40px 0;
+}
+
+header h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin: 0;
+    color: var(--text-color);
+}
+
+/* Estilo de gradiente para el título */
+header h1 span {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+
+/* Estilos de la sección de introducción */
+main .intro {
+    max-width: 700px;
+    margin: 20px auto 50px;
+}
+
+main .intro h2 {
+    font-size: 1.8rem;
+    font-weight: 400;
+}
+
+main .intro p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--text-secondary-color);
+}
+
+/* Grid para las tarjetas de opciones de documentos */
+.document-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 40px;
+}
+
+/* Estilo de las tarjetas */
+.doc-card {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 30px;
+    text-decoration: none;
+    color: var(--text-color);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Estilo para los íconos SVG dentro de las tarjetas */
+.doc-card .icon {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.doc-card h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+}
+
+.doc-card p {
+    color: var(--text-secondary-color);
+    font-size: 1rem;
+    flex-grow: 1; /* Asegura que el texto ocupe el espacio disponible */
+}
+
+/* Efecto hover solo para las tarjetas que NO están deshabilitadas */
+.doc-card:not(.disabled):hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-color);
+    box-shadow: 0 10px 20px rgba(0, 170, 255, 0.1);
+}
+
+/* Estilo para tarjetas deshabilitadas */
+.doc-card.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.doc-card.disabled .icon {
+    color: var(--text-secondary-color);
+}
+
+/* Etiqueta "Próximamente" */
+.soon-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: #333;
+    color: var(--text-secondary-color);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+/* Estilos del pie de página */
+footer {
+    margin-top: auto;
+    padding: 30px 0;
+    color: var(--text-secondary-color);
+    font-size: 0.9rem;
+}
+
